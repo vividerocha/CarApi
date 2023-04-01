@@ -1,5 +1,5 @@
 import {AfterInsert, AfterRemove, AfterUpdate, Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Exclude } from 'class-transformer';
+//import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
@@ -9,8 +9,9 @@ export class User {
   @Column()
   email: string;
   
+  //quando não é necessário implementar um dto personalizado para cada retorno, basta incluir esse decorator no atributo que quer esconder.
+  //@Exclude()
   @Column()
-  @Exclude()
   password: string;
 
   @AfterInsert()
