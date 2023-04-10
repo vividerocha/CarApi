@@ -1,9 +1,13 @@
-import {Body, Controller, Post, Get, Patch, Param, Query, Delete, NotFoundException, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import {Body, Controller, Post, Get, Patch, Param, Query, Delete, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptors';
+import { Serialize } from 'src/interceptors/serialize.interceptors';
+import { UserDto } from './dtos/user-dto';
 
+//após refatorar e criar uma função é possível reduzir a quantidade de código e usar a notação abaixo
+//e colocar essa notação no topo da controller
+@Serialize(UserDto)
 @Controller('auth')
 export class UsersController {
   constructor(private userService: UsersService){}
@@ -16,7 +20,8 @@ export class UsersController {
   //caso queira usar a classe Genérica, usar o decorator abaixo
   //@UseInterceptors(ClassSerializerInterceptor)
   //aqui estamos usando o interceptor que criamos no projeto
-  @UseInterceptors(SerializeInterceptor)
+  //@UseInterceptors(new SerializeInterceptor(UserDto))
+  
   @Get('/:id')
   async findUser(@Param('id') id: string){
     console.log('handle is running');
